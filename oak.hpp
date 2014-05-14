@@ -159,6 +159,9 @@ namespace oak
             bool empty( const K &t ) const { // @todo: subempty
                 return this->find(t) == this->end();
             }
+            bool has( const K &t ) const {
+                return !empty( t );
+            }
 
             bool operator!() const {
                 return this == &invalid<tree>();
@@ -180,6 +183,14 @@ namespace oak
 
             bool is_root() const {
                 return parent == this;
+            }
+            const tree &root() const {
+                if( !is_root() ) return parent->root();
+                return *this;
+            }
+            tree &root() {
+                if( !is_root() ) return parent->root();
+                return *this;
             }
 
             // tools
