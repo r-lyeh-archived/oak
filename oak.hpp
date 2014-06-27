@@ -163,8 +163,11 @@ namespace oak
                 return !empty( t );
             }
 
+            bool is_valid() const {
+                return this != &invalid<tree>();
+            }
             bool operator!() const {
-                return this == &invalid<tree>();
+                return !is_valid();
             }
 
             const map &children() const {
