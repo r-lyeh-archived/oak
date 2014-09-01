@@ -270,50 +270,23 @@ namespace oak
                 return get() = value;
             }
 
-#if 0
-            template<typename T>
-            tree &truncate_lower_than( const T &weight ) {
-                // truncate branches lower than weight
-                // needs refreshed tree
-                for( typename tree::iterator it = this->begin(), it_next = it; it != this->end(); it = it_next) {
-                    ++it_next;
-
-                    if( it->second.get() < weight ) {
-                        it->second.truncate_lower_than( weight );
-                    } else {
-                        this->erase( it->first );
-                    }
-                }
-                return *this;
-            }
-
-            template<typename T>
-            tree &truncate_higher_than( const T &weight ) {
-                // truncate branches higher than weight
-                // needs refreshed tree
-                for( typename tree::iterator it = this->begin(), it_next = it; it != this->end(); it = it_next) {
-                    ++it_next;
-
-                    if( it->second.get() > weight ) {
-                        it->second.truncate_higher_than( weight );
-                    } else {
-                        this->erase( it->first );
-                    }
-                }
-                return *this;
-            }
-#endif            
-
+            // c++03 case, user defined operator()
+            // c++11 case, accept lambdas as arguments
             template<typename T>
             tree &walk( const T &predicate ) {
                 for( typename tree::iterator it = this->begin(), it_next = it; it != this->end(); it = it_next) {
                     ++it_next;
-                    if( predicate(it) ) {
+                    if( predicate(*this, it) ) {
                         it->second.walk( predicate );
                     }
                 }
                 return *this;
             }            
 
+            // alias
+            template<typename T>
+            tree &walk() {
+                return walk( T() );
+            }            
     };
 }

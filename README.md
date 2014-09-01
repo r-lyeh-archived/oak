@@ -1,11 +1,11 @@
 oak
 ===
-- A simple and lightweight tree container. Written in C++11.
-- Easy to use. Loosely modelled after `std::map<k,v>` interface with a few extras.
-- Tiny. Header-only.
-- Cross platform.
-- No dependencies.
-- MIT licensed.
+- Oak is a lightweight tree container. Written in C++03.
+- Oak is simple. Loosely modeled after `std::map<k,v>` interface with a few extras.
+- Oak is tiny. Header-only.
+- Oak is cross-platform.
+- Oak is stand-alone. No dependencies.
+- Oak is MIT licensed.
 
 ### Sample
 ```c++
@@ -43,7 +43,7 @@ int main() {
 ```
 
 ### API
-- Oak is loosely modelled after `std::map<k,v>` interface with a few extras.
+- Oak is loosely modeled after `std::map<k,v>` interface with a few extras.
 - Use `[k]` to create subtrees on demand. Like `std::map` already does for values.
 - Use `(k)` to read subtrees. Do not create on demand.
 - Use `.empty(k)` to check subtree existence.
@@ -51,4 +51,4 @@ int main() {
 - Use `.setdown()/.setup()` to set children/parent values.
 
 ## @todoc
-- rest of API
+- rest of API, including `walk()`
