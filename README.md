@@ -5,7 +5,7 @@ oak
 - Oak is tiny. Header-only.
 - Oak is cross-platform.
 - Oak is stand-alone. No dependencies.
-- Oak is MIT licensed.
+- Oak is BOOST licensed.
 
 ### Sample
 ```c++

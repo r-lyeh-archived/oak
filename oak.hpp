@@ -1,5 +1,5 @@
 // a simple tree container
-// rlyeh. mit licensed
+// rlyeh. BOOST licensed
 
 #pragma once
 #include <cassert>
