@@ -7,6 +7,14 @@ oak
 - Oak is stand-alone. No dependencies.
 - Oak is BOOST licensed.
 
+### API
+- Oak is loosely modeled after `std::map<k,v>` interface with a few extras.
+- Use `[k]` to read/create subtrees on demand (standard `std::map` behavior).
+- Use `(k)` to read subtrees. Does not create subtrees on demand.
+- Use `.empty(k)` to check subtree existence.
+- Use `.get(v)/.set(v)` to get/set leaf values.
+- Use `.setdown()/.setup()` to set children/parent values.
+
 ### Sample
 ```c++
 #include <iostream>
@@ -16,7 +24,7 @@ oak
 int main() {
     oak::tree<std::string, int> t;
 
-    // create trees on demand. read-write access [] operator
+    // read-write access [] operator (creates trees on demand)
     t["fruits"]["oranges"];
     t["fruits"]["pineapples"] = 6;
     t["fruits"]["lemons"] = 12;
@@ -24,31 +32,51 @@ int main() {
     t["animals"]["pigs"]["guinea"] = 0;
 
     assert( 2 == t.size() );
-    assert( 3 == t("fruits").size() );
+    assert( 3 == t["fruits"].size() );
 
-    // read-only access () operator
+    // read-only access () operator (does not create tree on demand)
     t("fruits")("operator () should never create on demand");
     assert( 3 == t("fruits").size() );
 
-    // print some:
+    // print some subtrees
     for( auto &k : t("animals") ) {
         std::cout << ".key=" << k.first << "; .tree {\n" << k.second << "}" << std::endl;
     }
 
-    // or also:
+    // more printing
     std::cout << t << std::endl;
+    std::cout << t.as_csv() << std::endl;
 
     std::cout << "All ok." << std::endl;
 }
 ```
 
-### API
-- Oak is loosely modeled after `std::map<k,v>` interface with a few extras.
-- Use `[k]` to create subtrees on demand. Like `std::map` already does for values.
-- Use `(k)` to read subtrees. Do not create on demand.
-- Use `.empty(k)` to check subtree existence.
-- Use `.get(v)/.set(v)` to get/set leaf values.
-- Use `.setdown()/.setup()` to set children/parent values.
+### Possible output
+```c++
+.key=pigs; .tree {
+[2] guinea (0)
+[2] pink (0)
+}
+[2] animals (0)
+        [1] pigs (0)
+                [2] guinea (0)
+                [2] pink (0)
+[2] fruits (0)
+        [3] lemons (12)
+        [3] oranges (0)
+        [3] pineapples (6)
+
+/animals,0
+/animals/pigs,0
+/animals/pigs/guinea,0
+/animals/pigs/pink,0
+/fruits,0
+/fruits/lemons,12
+/fruits/oranges,0
+/fruits/pineapples,6
+
+All ok.
+```
 
 ## @todoc
 - rest of API, including `walk()`

@@ -1,13 +1,14 @@
-// a simple tree container
-// rlyeh. BOOST licensed
+// a simple tree container, BOOST licensed.
+// - rlyeh ~~ listening to Buckethead - The Moltrail #2
 
 #pragma once
 #include <cassert>
 
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <map>
-#include <set>
+#include <sstream>
 #include <string>
 
 namespace oak
@@ -16,15 +17,15 @@ namespace oak
     // [] means read-writeable (so is <<)
     // () means read-only access
 
-    template< typename K, typename V = int >
-    class tree : public std::map< K, tree<K,V> > {
+    template< typename K, typename V = int, typename P = std::less< K > >
+    class tree : public std::map< K, tree<K,V,P>, P > {
 
             enum { OAK_VERBOSE = false };
 
-            typedef typename std::map< K, tree<K,V> > map;
+            typedef typename std::map< K, tree<K,V,P>, P > map;
 
             template< typename T >
-            T zero() {
+            T zero() const {
                 return std::pair<T,T>().first;
             }
 
@@ -197,6 +198,19 @@ namespace oak
             }
 
             // tools
+
+            template<typename ostream>
+            void csv( ostream &cout = std::cout, const std::string &prefix = std::string(), unsigned depth = 0 ) const {
+                for( typename tree::const_iterator it = this->begin(), end = this->end(); it != end; ++it ) {
+                    cout << prefix << "/" << it->first << "," << it->second.get() << std::endl;
+                    it->second.csv( cout, prefix + "/" + it->first, depth + 1 );
+                }
+            }
+
+            std::string as_csv() const {
+                std::stringstream ss;
+                return csv( ss ), ss.str();
+            }
 
             template<typename ostream>
             void print( ostream &cout = std::cout, unsigned depth = 0 ) const {

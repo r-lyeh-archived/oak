@@ -5,7 +5,7 @@
 int main() {
     oak::tree<std::string, int> t;
 
-    // create trees on demand. read-write access [] operator
+    // read-write access [] operator (creates trees on demand)
     t["fruits"]["oranges"];
     t["fruits"]["pineapples"] = 6;
     t["fruits"]["lemons"] = 12;
@@ -13,19 +13,20 @@ int main() {
     t["animals"]["pigs"]["guinea"] = 0;
 
     assert( 2 == t.size() );
-    assert( 3 == t("fruits").size() );
+    assert( 3 == t["fruits"].size() );
 
-    // read-only access () operator
+    // read-only access () operator (does not create tree on demand)
     t("fruits")("operator () should never create on demand");
     assert( 3 == t("fruits").size() );
 
-    // print some:
+    // print some subtrees
     for( auto &k : t("animals") ) {
         std::cout << ".key=" << k.first << "; .tree {\n" << k.second << "}" << std::endl;
     }
 
-    // or also:
+    // more printing
     std::cout << t << std::endl;
+    std::cout << t.as_csv() << std::endl;
 
     std::cout << "All ok." << std::endl;
 }
