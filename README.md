@@ -1,5 +1,6 @@
-oak
+oak  <a href="https://travis-ci.org/r-lyeh/oak"><img src="https://api.travis-ci.org/r-lyeh/oak.svg?branch=master" align="right" /></a>
 ===
+
 - Oak is a lightweight tree container. Written in C++03.
 - Oak is simple. Loosely modeled after `std::map<k,v>` interface with a few extras.
 - Oak is tiny. Header-only.
