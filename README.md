@@ -6,7 +6,7 @@ oak  <a href="https://travis-ci.org/r-lyeh/oak"><img src="https://api.travis-ci.
 - Oak is tiny. Header-only.
 - Oak is cross-platform.
 - Oak is stand-alone. No dependencies.
-- Oak is BOOST licensed.
+- Oak is zlib/libpng licensed.
 
 ### API
 - Oak is loosely modeled after `std::map<k,v>` interface with a few extras.

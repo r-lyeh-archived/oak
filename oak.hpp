@@ -1,4 +1,4 @@
-// a simple tree container, BOOST licensed.
+// a simple tree container, zlib/libpng licensed.
 // - rlyeh ~~ listening to Buckethead - The Moltrail #2
 
 #pragma once
