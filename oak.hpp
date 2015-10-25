@@ -3,7 +3,6 @@
 
 #pragma once
 #include <cassert>
-
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -11,16 +10,21 @@
 #include <sstream>
 #include <string>
 
+#define OAK_VERSION "1.0.0" // (2015/10/25) Semantic versioning adherence; fix csv() with non-string keys
+
 namespace oak
 {
+    // config
+#   ifndef OAK_VERBOSE
+        enum { OAK_VERBOSE = false };
+#   endif
+
     // tree class
     // [] means read-writeable (so is <<)
     // () means read-only access
 
     template< typename K, typename V = int, typename P = std::less< K > >
     class tree : public std::map< K, tree<K,V,P>, P > {
-
-            enum { OAK_VERBOSE = false };
 
             typedef typename std::map< K, tree<K,V,P>, P > map;
 
@@ -203,7 +207,9 @@ namespace oak
             void csv( ostream &cout = std::cout, const std::string &prefix = std::string(), unsigned depth = 0 ) const {
                 for( typename tree::const_iterator it = this->begin(), end = this->end(); it != end; ++it ) {
                     cout << prefix << "/" << it->first << "," << it->second.get() << std::endl;
-                    it->second.csv( cout, prefix + "/" + it->first, depth + 1 );
+                    std::stringstream ss;
+                    ss << prefix << "/" << it->first;
+                    it->second.csv( cout, ss.str(), depth + 1 );
                 }
             }
 
@@ -295,12 +301,12 @@ namespace oak
                     }
                 }
                 return *this;
-            }            
+            }
 
             // alias
             template<typename T>
             tree &walk() {
                 return walk( T() );
-            }            
+            }
     };
 }

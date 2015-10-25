@@ -81,3 +81,7 @@ All ok.
 
 ## @todoc
 - rest of API, including `walk()`
+
+## Changelog
+- v1.0.0 (2015/10/25): Semantic versioning adherence
+- v1.0.0 (2015/10/25): Fix csv() method when using non-string keys in map
